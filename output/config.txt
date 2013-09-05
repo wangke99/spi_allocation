@@ -1,2 +1,0 @@
-input/LSS_test_spi.json	1	16711
-input/LSS_TEST2_spi.json	1	16711
