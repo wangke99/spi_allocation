@@ -1,0 +1,1 @@
+{"status": 1, "bucket": "input/LSS_TEST2_spi.json"}{"status": 1, "spi": 16711, "bucket": "input/LSS_TEST2_spi.json"}
