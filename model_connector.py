@@ -102,8 +102,9 @@ for each in buckets:
     with open('input/'+each+'_sop.json', 'w') as f:
         json.dump(list(bucket['sop'])[:accounts], f)
 
-    with open('input/config.json', 'a') as f:
-        json.dump({'bucket': each, 'accounts': accounts, 'reps': reps, 'output': each+'output'}, f)
+    with open('input/config.txt', 'a') as f:
+	f.write(each+'\t'+str(accounts)+'\t'+str(reps)+'\t'+each+'_output.txt\n')
+        #json.dump({'bucket': each, 'accounts': accounts, 'reps': reps, 'output': each+'output'}, f)
 
     print 'input data generated for bucket: %s' % (each)
 

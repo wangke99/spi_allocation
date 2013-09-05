@@ -157,11 +157,11 @@ status, result = glpk.ilp(c = c, G=G, h=h, A = A, b = b, B= set(range(0,len(c)))
 final_spi = -int(np.sum(np.multiply(np.array(result), np.array(c))))
 print '[INFO] final optimal spi value is %s' % (str(final_spi))
 
-with open('output/output_log.txt','a') as f:
+with open('output/config.txt','a') as f:
     if final_spi > 0:
-	json.dump({'bucket':spi_file, 'status':1, 'spi': final_spi}, f)
+	f.write(spi_file+'\t1\t'+str(final_spi)+'\n')
     else:
-	json.dump({'bucket':spi_file, 'status':0, 'spi': 0}, f)
+	f.write(spi_file+'\t0\t'+str(final_spi)+'\n')
 
 #print result
 result = np.array(result, np.int)
