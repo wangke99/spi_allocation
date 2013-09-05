@@ -1,8 +1,10 @@
-from pandas import DataFrame, SeriesAOAOA
+from pandas import DataFrame
 import pandas as pd
 
 config = pd.read_csv('output/config.txt', header=None, sep='\t')
 config.columns = ['spi_file', 'status', 'spi']
+
+config = config.drop_duplicates()
 
 unfinished = config[config['status'] == 0]
 

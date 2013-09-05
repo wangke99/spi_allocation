@@ -40,10 +40,12 @@ for each in config.itertuples():
     sop = 'input/'+bucket+'_sop.json'
     output = 'output/'+each[4]
     time = str(each[6])
+    log = 'model_log/'+bucket+'_log.txt'
 
-    command_string = 'python ilp_code.py -c %s -r %s -f %s -s %s -t %s -o %s' % (accounts, reps, spi, sop, time, output )
+    command_string = 'python ilp_code.py -c %s -r %s -f %s -s %s -t %s -o %s > %s &' % (accounts, reps, spi, sop, time, output, log )
     print '[INFO] Start optimizing bucket %s' % (bucket)
     print '[INFO] Full command: %s ' % (command_string)
+    print '[INFO] Algorithm log will be generated at %s' % (log)
     os.system(command_string)
     
     
