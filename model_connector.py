@@ -8,6 +8,10 @@ import os
 import pickle
 import json
 
+import argparse
+import math
+
+
 import yaml
 user_name = ''
 dwh_password = ''
@@ -29,7 +33,22 @@ except:
     print 'unable to load configurations...'
     print 'quit program now ...'
 
+parser = argparse.ArgumentParser(description="Get data from data warehouse and transform it to the format needed for optimization")
 
+parser.add_argument('-m', '--max_scale', help='maximum scale for each bucket', required=False, default=0, type=int)
+
+args = parser.parse_args()
+
+max_scale = args.max_scale
+
+if max_scale == 0:
+    print '[INFO] No additional optimization on model size'
+elif max_scale >0 :
+    print '[INFO] Max model scale at %s' % (str(max_scale))
+else:
+    print '[ERROR] Max model scale specified, %s, is not valid' % (str(max_scale))
+    print '[ERROR] Quiting program. Please check and re-try.'
+    quit()
 
 def start_jvm():
     jdbcdrvpath = '/home/kewang/drivers/jdbc'
@@ -68,7 +87,7 @@ sql = """
 select *
 from
 (
-select account_id , RANK() OVER  (partition by bucket, rep_id order by ACCOUNT_ID) as account_map,  rep_id, rank () over ( partition by bucket, account_id order by rep_id) as rep_map,
+select account_id , RANK() OVER  (partition by bucket, rep_id order by sop, ACCOUNT_ID) as account_map,  rep_id, rank () over ( partition by bucket, account_id order by rep_id) as rep_map,
 spi, sop , bucket
 from  dm_biz .ke_allocation_input_test
 ) a
@@ -79,11 +98,43 @@ data = dwh_query(query=sql, col=s, user=user_name, password=dwh_password)
 
 print 'data pulled from dwh; processing ...'
 
+if max_scale > 0:
+    buckets = data['bucket'].unique()
+    temp = {'account_id':[],'account_map':[], 'rep_id':[], 'rep_map':[], 'spi':[], 'sop':[], 'bucket':[]}
+    temp = DataFrame(temp, columns = s)
+    for each in buckets:
+        # take each bucket
+        d = data[data['bucket']==each]
+        # number of unique companies
+        c = len(d['account_id'].unique())
+        # number of reps
+        r = len(d['rep_id'].unique())
+        # at the max scale, the number of companies for each small bucket
+        i = int(math.ceil(float(max_scale)/float(r)))
+        # the number of buckets
+        t = int(math.floor(float(c)/float(i)))
+        print c, r, i ,t
+        # company index range
+        t = [i * e for e in range(1,t+2)]
+        t[-1] = int(c)+1
+        print t
+        for e in t:
+            sd =d[d['account_map']<=e]
+            sd['bucket']=sd['bucket'].map(lambda x: x+str(int(e/i)))
+            temp = pd.concat([temp, sd], axis = 0)
+    print temp
+    for each in temp.itertuples():
+        print each
+        break
+    quit()
+    data = temp
+        
+
+
 buckets = data['bucket'].unique()
 
 print 'data loaded for the following buckets:'
 print ', '.join(list(buckets))
-
 
 
 for each in buckets:

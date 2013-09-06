@@ -1,7 +1,12 @@
 from pandas import DataFrame, Series
 import pandas as pd
 
-d = pd.read_csv('output/config.txt', header=None, sep='\t')
+try:
+    d = pd.read_csv('output/config.txt', header=None, sep='\t')
+except:
+    print '[INFO] No optimization job is finished yet or no job is running.'
+    quit()
+
 d.columns = ['input', 'status', 'spi']
 
 d = d.drop_duplicates()
