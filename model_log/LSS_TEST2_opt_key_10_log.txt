@@ -1,0 +1,49 @@
+[INFO] number of companis: 167
+[INFO] number of reps: 6
+[INFO] location of spi data file: input/LSS_TEST2_opt_key_10_spi.json
+[INFO] location of sop data file: input/LSS_TEST2_opt_key_10_sop.json
+[INFO] the process will run for at most 100 seconds
+[INFO] 1002 records loaded from spi file
+[INFO] SUCCESS: spi data loaded
+[INFO] 167 records loaded from SOP file
+[INFO] SUCCESS: SOP data loaded
+GLPK Integer Optimizer, v4.48
+179 rows, 1002 columns, 3006 non-zeros
+1002 integer variables, all of which are binary
+Preprocessing...
+179 rows, 1002 columns, 3006 non-zeros
+1002 integer variables, all of which are binary
+Scaling...
+ A: min|aij| =  1.000e+00  max|aij| =  1.000e+00  ratio =  1.000e+00
+Problem data seem to be well scaled
+Constructing initial basis...
+Size of triangular part = 179
+Solving LP relaxation...
+GLPK Simplex Optimizer, v4.48
+179 rows, 1002 columns, 3006 non-zeros
+      0: obj =  -3.849100000e+02  infeas =  2.716e+02 (0)
+*   278: obj =  -4.863430000e+02  infeas =  0.000e+00 (0)
+*   500: obj =  -8.302780000e+02  infeas =  3.553e-15 (0)
+*   565: obj =  -8.442450000e+02  infeas =  0.000e+00 (0)
+OPTIMAL SOLUTION FOUND
+Integer optimization begins...
++   565: mip =     not found yet >=              -inf        (1; 0)
++  1577: >>>>>  -8.371800000e+02 >=  -8.441605000e+02   0.8% (116; 0)
++  2722: >>>>>  -8.395200000e+02 >=  -8.441605000e+02   0.6% (233; 28)
++  4958: >>>>>  -8.406900000e+02 >=  -8.441605000e+02   0.4% (372; 183)
++  6295: >>>>>  -8.416500000e+02 >=  -8.441605000e+02   0.3% (456; 284)
++  6531: >>>>>  -8.425100000e+02 >=  -8.441605000e+02   0.2% (351; 567)
++  7086: >>>>>  -8.428300000e+02 >=  -8.441605000e+02   0.2% (305; 750)
++ 10345: >>>>>  -8.428700000e+02 >=  -8.441605000e+02   0.2% (325; 920)
++ 12196: >>>>>  -8.431700000e+02 >=  -8.441605000e+02   0.1% (321; 1047)
++ 12390: >>>>>  -8.433000000e+02 >=  -8.441605000e+02   0.1% (212; 1354)
++ 17511: mip =  -8.433000000e+02 >=  -8.441435000e+02   0.1% (66; 1920)
++ 22726: mip =  -8.433000000e+02 >=  -8.441435000e+02   0.1% (88; 2141)
++ 27783: mip =  -8.433000000e+02 >=  -8.441435000e+02   0.1% (99; 2394)
++ 32287: mip =  -8.433000000e+02 >=  -8.440975000e+02 < 0.1% (77; 2638)
++ 37138: mip =  -8.433000000e+02 >=  -8.439155000e+02 < 0.1% (82; 2820)
++ 42450: mip =  -8.433000000e+02 >=  -8.439155000e+02 < 0.1% (16; 3069)
++ 43541: mip =  -8.433000000e+02 >=     tree is empty   0.0% (0; 3159)
+INTEGER OPTIMAL SOLUTION FOUND
+[INFO] final optimal spi value is 843
+[INFO] generate results in file

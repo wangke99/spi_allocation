@@ -1,0 +1,58 @@
+[INFO] number of companis: 167
+[INFO] number of reps: 6
+[INFO] location of spi data file: input/LSS_TEST2_opt_key_5_spi.json
+[INFO] location of sop data file: input/LSS_TEST2_opt_key_5_sop.json
+[INFO] the process will run for at most 100 seconds
+[INFO] 1002 records loaded from spi file
+[INFO] SUCCESS: spi data loaded
+[INFO] 167 records loaded from SOP file
+[INFO] SUCCESS: SOP data loaded
+GLPK Integer Optimizer, v4.48
+179 rows, 1002 columns, 3006 non-zeros
+1002 integer variables, all of which are binary
+Preprocessing...
+179 rows, 1002 columns, 3006 non-zeros
+1002 integer variables, all of which are binary
+Scaling...
+ A: min|aij| =  1.000e+00  max|aij| =  1.000e+00  ratio =  1.000e+00
+Problem data seem to be well scaled
+Constructing initial basis...
+Size of triangular part = 179
+Solving LP relaxation...
+GLPK Simplex Optimizer, v4.48
+179 rows, 1002 columns, 3006 non-zeros
+      0: obj =  -5.360200000e+02  infeas =  2.716e+02 (0)
+*   278: obj =  -3.787325000e+02  infeas =  0.000e+00 (0)
+*   500: obj =  -1.052000000e+03  infeas =  7.105e-15 (0)
+*   632: obj =  -1.107168000e+03  infeas =  0.000e+00 (0)
+OPTIMAL SOLUTION FOUND
+Integer optimization begins...
++   632: mip =     not found yet >=              -inf        (1; 0)
++  1173: >>>>>  -1.104210000e+03 >=  -1.107147000e+03   0.3% (67; 0)
++  1255: >>>>>  -1.105180000e+03 >=  -1.107147000e+03   0.2% (96; 17)
++  2113: mip =  -1.105180000e+03 >=  -1.107147000e+03   0.2% (396; 57)
++  3057: mip =  -1.105180000e+03 >=  -1.107147000e+03   0.2% (664; 78)
++  4128: >>>>>  -1.105310000e+03 >=  -1.107147000e+03   0.2% (953; 101)
++  4907: >>>>>  -1.105460000e+03 >=  -1.107147000e+03   0.2% (1103; 241)
++  6000: mip =  -1.105460000e+03 >=  -1.107147000e+03   0.2% (1263; 404)
++  6707: >>>>>  -1.105980000e+03 >=  -1.107147000e+03   0.1% (1340; 436)
++  8253: mip =  -1.105980000e+03 >=  -1.107147000e+03   0.1% (716; 1892)
++  9506: mip =  -1.105980000e+03 >=  -1.107147000e+03   0.1% (681; 2076)
++ 10728: mip =  -1.105980000e+03 >=  -1.107147000e+03   0.1% (540; 2493)
++ 12313: >>>>>  -1.106260000e+03 >=  -1.107147000e+03 < 0.1% (437; 2947)
++ 15637: mip =  -1.106260000e+03 >=  -1.107147000e+03 < 0.1% (364; 3856)
++ 19797: mip =  -1.106260000e+03 >=  -1.107147000e+03 < 0.1% (574; 4017)
++ 25222: mip =  -1.106260000e+03 >=  -1.107147000e+03 < 0.1% (681; 4224)
+Time used: 60.0 secs.  Memory used: 3.7 Mb.
++ 32045: mip =  -1.106260000e+03 >=  -1.107147000e+03 < 0.1% (833; 4342)
++ 40120: mip =  -1.106260000e+03 >=  -1.107147000e+03 < 0.1% (1054; 4475)
++ 45976: mip =  -1.106260000e+03 >=  -1.107147000e+03 < 0.1% (1313; 4601)
++ 53199: mip =  -1.106260000e+03 >=  -1.107147000e+03 < 0.1% (1463; 4912)
++ 62421: mip =  -1.106260000e+03 >=  -1.107147000e+03 < 0.1% (1594; 5079)
++ 71132: mip =  -1.106260000e+03 >=  -1.107147000e+03 < 0.1% (1582; 5416)
++ 78917: mip =  -1.106260000e+03 >=  -1.107147000e+03 < 0.1% (1704; 5612)
++ 85957: mip =  -1.106260000e+03 >=  -1.107147000e+03 < 0.1% (1869; 5861)
++ 86009: mip =  -1.106260000e+03 >=  -1.107147000e+03 < 0.1% (1876; 5861)
+TIME LIMIT EXCEEDED; SEARCH TERMINATED
+[INFO] final optimal spi value is 1106
+[INFO] generate results in file

@@ -19,7 +19,7 @@ salesforce_password = ''
 easydata_secret = ''
 
 try:
-    print 'loading configurations ... '
+    print '[INFO] loading login configurations ... '
     f = open('/home/kewang/config/config.yaml')
     config = yaml.safe_load(f)
     user_name = config['user_name']
@@ -28,18 +28,21 @@ try:
     easydata_secret = config['easydata_secret']
     dwh_string = config['dwh_string']
     f.close()
-    print 'SUCCESS ... '
+    print '[INFO] load login configuration: SUCCESS ... '
 except:
-    print 'unable to load configurations...'
-    print 'quit program now ...'
+    print '[ERROR] unable to load configurations...'
+    print '[ERROR] quit program now ...'
+    quit()
 
 parser = argparse.ArgumentParser(description="Get data from data warehouse and transform it to the format needed for optimization")
 
 parser.add_argument('-m', '--max_scale', help='maximum scale for each bucket', required=False, default=0, type=int)
+parser.add_argument('-t', '--data_table', help='the name of the data table, default to test table', required=False, default='dm_biz.ke_allocation_input_test', type=str)
 
 args = parser.parse_args()
 
 max_scale = args.max_scale
+data_table = args.data_table
 
 if max_scale == 0:
     print '[INFO] No additional optimization on model size'
@@ -87,16 +90,22 @@ sql = """
 select *
 from
 (
-select account_id , RANK() OVER  (partition by bucket, rep_id order by sop, ACCOUNT_ID) as account_map,  rep_id, rank () over ( partition by bucket, account_id order by rep_id) as rep_map,
+select account_id , RANK() OVER  (partition by bucket, rep_id order by sop desc, ACCOUNT_ID) as account_map,  rep_id, rank () over ( partition by bucket, account_id order by rep_id) as rep_map,
 spi, sop , bucket
-from  dm_biz .ke_allocation_input_test
+from  %s
 ) a
 order by bucket, rep_map, account_map ;
-"""
-print 'querying dwh...'
-data = dwh_query(query=sql, col=s, user=user_name, password=dwh_password)
+""" % (data_table)
+print '[INFO] querying data from %s ...' % (data_table)
 
-print 'data pulled from dwh; processing ...'
+try:
+    data = dwh_query(query=sql, col=s, user=user_name, password=dwh_password)
+except Exception, e:
+    print '[ERROR] Error pulling data from data warehouse'
+    print '[ERROR] %s' % (str(e))
+    quit()
+    
+print '[INFO] data pulled from dwh; processing ...'
 
 if max_scale > 0:
     buckets = data['bucket'].unique()
@@ -109,31 +118,49 @@ if max_scale > 0:
         c = len(d['account_id'].unique())
         # number of reps
         r = len(d['rep_id'].unique())
-        # at the max scale, the number of companies for each small bucket
-        i = int(math.ceil(float(max_scale)/float(r)))
-        # the number of buckets
-        t = int(math.floor(float(c)/float(i)))
-        print c, r, i ,t
-        # company index range
-        t = [i * e for e in range(1,t+2)]
-        t[-1] = int(c)+1
-        print t
-        for e in t:
-            sd =d[d['account_map']<=e]
-            sd['bucket']=sd['bucket'].map(lambda x: x+str(int(e/i)))
-            temp = pd.concat([temp, sd], axis = 0)
-    print temp
-    for each in temp.itertuples():
-        print each
-        break
-    quit()
+        if c*r<=max_scale:
+            temp = pd.concat([temp, d], axis = 0)
+        else:
+            # at the max scale, the number of companies for each small bucket
+            i = int(math.ceil(float(max_scale)/float(r)))
+            # the number of buckets
+            t = int(math.floor(float(c)/float(i)))
+            #print c, r, i ,t
+            # company index range
+            t = [i * e for e in range(1,t+2)]
+            t[-1] = int(c)+1
+            #print t
+            start = 0
+            for e in t:
+                sd =d[(d['account_map']<=e) & (d['account_map']>start)]
+                sd['bucket']=sd['bucket'].map(lambda x: x+'_opt_key_'+str(int(e/i)))
+                account_map = sd[['account_id']].drop_duplicates()
+                account_map['account_index'] = range(1, len(account_map)+1)
+                rep_map = sd[['rep_id']].drop_duplicates()
+                rep_map['rep_index'] = range(1, len(rep_map)+1)
+                sd = sd.merge(account_map, left_on=['account_id'], right_on = ['account_id'])
+                sd = sd.merge(rep_map, left_on = ['rep_id'], right_on = ['rep_id'])
+                sd['account_map'] = sd['account_index']
+                sd['rep_map'] = sd['rep_index']
+                sd = sd[['account_id', 'account_map', 'rep_id', 'rep_map','spi', 'sop', 'bucket']]
+                start = e
+                temp = pd.concat([temp, sd], axis = 0)
+    #print temp
+    #for each in temp.itertuples():
+    #    print each
+        #break
+    #quit()
     data = temp
         
+#for each in data.itertuples():
+#    print each
+#    break
 
+#quit()
 
 buckets = data['bucket'].unique()
 
-print 'data loaded for the following buckets:'
+print '[INFO] data loaded for the following buckets:'
 print ', '.join(list(buckets))
 
 
@@ -142,8 +169,10 @@ for each in buckets:
     accounts = len(bucket['account_id'].unique())
     reps = len(bucket['rep_id'].unique())
     account_map = bucket[['account_id', 'account_map']].drop_duplicates()
+    #print account_map
     rep_map = bucket[['rep_id', 'rep_map']].drop_duplicates()
-
+    #print rep_map
+    
     account_map.to_csv('input/'+each+'_account_map.txt', sep='\t', index=False, header=False, encoding='utf-8')
     rep_map.to_csv('input/'+each+'_rep_map.txt', sep='\t', index=False, header=False, encoding='utf-8')
 
@@ -157,6 +186,6 @@ for each in buckets:
 	f.write(each+'\t'+str(accounts)+'\t'+str(reps)+'\t'+each+'_output.txt\n')
         #json.dump({'bucket': each, 'accounts': accounts, 'reps': reps, 'output': each+'output'}, f)
 
-    print 'input data generated for bucket: %s' % (each)
+    print '[INFO] input data generated for bucket: %s' % (each)
 
 

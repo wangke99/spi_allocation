@@ -1,0 +1,39 @@
+[INFO] number of companis: 167
+[INFO] number of reps: 6
+[INFO] location of spi data file: input/LSS_TEST2_opt_key_6_spi.json
+[INFO] location of sop data file: input/LSS_TEST2_opt_key_6_sop.json
+[INFO] the process will run for at most 100 seconds
+[INFO] 1002 records loaded from spi file
+[INFO] SUCCESS: spi data loaded
+[INFO] 167 records loaded from SOP file
+[INFO] SUCCESS: SOP data loaded
+GLPK Integer Optimizer, v4.48
+179 rows, 1002 columns, 3006 non-zeros
+1002 integer variables, all of which are binary
+Preprocessing...
+179 rows, 1002 columns, 3006 non-zeros
+1002 integer variables, all of which are binary
+Scaling...
+ A: min|aij| =  1.000e+00  max|aij| =  1.000e+00  ratio =  1.000e+00
+Problem data seem to be well scaled
+Constructing initial basis...
+Size of triangular part = 179
+Solving LP relaxation...
+GLPK Simplex Optimizer, v4.48
+179 rows, 1002 columns, 3006 non-zeros
+      0: obj =  -4.765200000e+02  infeas =  2.716e+02 (0)
+*   278: obj =  -2.435150000e+02  infeas =  0.000e+00 (0)
+*   500: obj =  -3.509450000e+03  infeas =  3.553e-15 (0)
+*   598: obj =  -3.561278500e+03  infeas =  0.000e+00 (0)
+OPTIMAL SOLUTION FOUND
+Integer optimization begins...
++   598: mip =     not found yet >=              -inf        (1; 0)
++   876: >>>>>  -3.557370000e+03 >=  -3.561135500e+03   0.1% (57; 0)
++   896: >>>>>  -3.558260000e+03 >=  -3.561135500e+03 < 0.1% (56; 11)
++   911: >>>>>  -3.559240000e+03 >=  -3.561135500e+03 < 0.1% (57; 18)
++   920: >>>>>  -3.559910000e+03 >=  -3.561135500e+03 < 0.1% (33; 63)
++  1257: >>>>>  -3.560330000e+03 >=  -3.561135500e+03 < 0.1% (54; 94)
++  1857: mip =  -3.560330000e+03 >=     tree is empty   0.0% (0; 241)
+INTEGER OPTIMAL SOLUTION FOUND
+[INFO] final optimal spi value is 3560
+[INFO] generate results in file
