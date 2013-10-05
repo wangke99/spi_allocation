@@ -42,7 +42,7 @@ for each in config.itertuples():
     time = str(each[6])
     log = 'model_log/'+bucket+'_log.txt'
 
-    command_string = 'python ilp_code.py -c %s -r %s -f %s -s %s -t %s -o %s > %s &' % (accounts, reps, spi, sop, time, output, log )
+    command_string = 'python ilp_code.py -c %s -r %s -f %s -s %s -t %s -o %s 2> %s ' % (accounts, reps, spi, sop, time, output, log )
     print '[INFO] Start optimizing bucket %s' % (bucket)
     print '[INFO] Full command: %s ' % (command_string)
     print '[INFO] Algorithm log will be generated at %s' % (log)

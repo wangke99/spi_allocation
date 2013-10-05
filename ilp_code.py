@@ -5,6 +5,7 @@ import json
 import argparse
 from pandas import DataFrame
 import pandas as pd
+import math
 
 parser = argparse.ArgumentParser(description="account assignment based on SPI maximization")
 
@@ -89,10 +90,10 @@ I = np.concatenate((I, -I), axis = 0)
 
 ones = np.ones(number_of_reps)
 ca = ones.copy()
-ca = ca * (number_of_company/number_of_reps*1.05)
+ca = ca * math.ceil(number_of_company/number_of_reps*1.1)
 
 cal = ones.copy()
-cal = cal * (-number_of_company/number_of_reps*0.95)
+cal = cal * (-1) * math.ceil(number_of_company/number_of_reps*0.9)
 constraint_account_no = np.concatenate((ca, cal), axis =0)
 constraint = constraint_account_no
 #constraint_account_no =  matrix(constraint_account_no)
@@ -111,10 +112,10 @@ for i in range(1, number_of_reps):
 IS = np.concatenate((IS, -IS), axis = 0)
 
 cs = ones.copy()
-cs = cs*(np.sum(s)/number_of_reps*1.05)
+cs = cs*(np.sum(s)/number_of_reps*1.5)
 
 csl = ones.copy()
-csl = csl * ( - np.sum(s)/number_of_reps*0.95)
+csl = csl * ( - np.sum(s)/number_of_reps*0.5)
 constraint_sop = np.concatenate((cs, csl), axis = 0)
 
 #print IS
