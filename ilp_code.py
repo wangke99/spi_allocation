@@ -159,10 +159,10 @@ final_spi = -int(np.sum(np.multiply(np.array(result), np.array(c))))
 print '[INFO] final optimal spi value is %s' % (str(final_spi))
 
 with open('output/config.txt','a') as f:
-    if final_spi > 0:
-	f.write(spi_file+'\t1\t'+str(final_spi)+'\n')
+    if final_spi >= 0:
+        f.write(spi_file+'\t1\t'+str(final_spi)+'\n')
     else:
-	f.write(spi_file+'\t0\t'+str(final_spi)+'\n')
+        f.write(spi_file+'\t-1\t'+str(final_spi)+'\n')
 
 #print result
 result = np.array(result, np.int)

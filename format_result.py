@@ -6,7 +6,7 @@ config.columns = ['spi_file', 'status', 'spi']
 
 config = config.drop_duplicates()
 
-unfinished = config[config['status'] == 0]
+unfinished = config[config['status'] == -1]
 
 config = config[config['status'] == 1]
 config['bucket'] = config['spi_file'].map(lambda x: x.replace('input/','').replace('_spi.json',''))
