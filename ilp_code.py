@@ -121,9 +121,20 @@ constraint_sop = np.concatenate((cs, csl), axis = 0)
 #print IS
 #print constraint_sop
 
-#I = np.concatenate((I, IS), axis = 0)
-#constraint = np.concatenate((constraint_account_no, constraint_sop), axis = 0)
 
+
+#---------------
+# to turn on or off the sop constraint
+#-------------------
+
+
+I = np.concatenate((I, IS), axis = 0)
+
+constraint = np.concatenate((constraint_account_no, constraint_sop), axis = 0)
+
+
+#-----------------------
+#-----------------------
 #print I
 #print constraint
 #quit()
