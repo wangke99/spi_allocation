@@ -93,7 +93,7 @@ ca = ones.copy()
 ca = ca * math.ceil(number_of_company/number_of_reps*1.1)
 
 cal = ones.copy()
-cal = cal * (-1) * math.ceil(number_of_company/number_of_reps*0.9)
+cal = cal * (-1) * math.ceil(number_of_company/number_of_reps*0.95)
 constraint_account_no = np.concatenate((ca, cal), axis =0)
 constraint = constraint_account_no
 #constraint_account_no =  matrix(constraint_account_no)
@@ -112,10 +112,10 @@ for i in range(1, number_of_reps):
 IS = np.concatenate((IS, -IS), axis = 0)
 
 cs = ones.copy()
-cs = cs*(np.sum(s)/number_of_reps*1.5)
+cs = cs*(np.sum(s)/number_of_reps*1.7)
 
 csl = ones.copy()
-csl = csl * ( - np.sum(s)/number_of_reps*0.5)
+csl = csl * ( - np.sum(s)/number_of_reps*0.3)
 constraint_sop = np.concatenate((cs, csl), axis = 0)
 
 #print IS
