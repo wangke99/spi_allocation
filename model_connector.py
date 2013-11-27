@@ -61,7 +61,7 @@ def start_jvm():
     jpype.startJVM('/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/server/libjvm.so', jargs)
 
 def dwh_query(query, col, user, password, dwh = dwh_string):
-    dwh_link = "jdbc:teradata://%s.corp.linkedin.com/DBS_PORT=1025,DATABASE=DWH,LOGMECH=LDAP" % (dwh)
+    dwh_link = "" % (dwh)
     cnx = jaydebeapi.connect("com.teradata.jdbc.TeraDriver",dwh_link,user,password)
     cursor = cnx.cursor()
     
